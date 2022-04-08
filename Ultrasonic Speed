@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from time import sleep, time
+import time
 
 # constants
 DEBUG = False # debug mode?
@@ -24,16 +24,16 @@ def getDistance():
     # trigger the sensor by setting it high for a short time and
     # then setting it low
     GPIO.output(TRIG, GPIO.HIGH)
-    sleep(TRIGGER_TIME)
+    time.sleep(TRIGGER_TIME)
     GPIO.output(TRIG, GPIO.LOW)
     
     # wait for the ECHO pin to read high
     # once the ECHO pin is high, the start time is set
     # once the ECHO pin is low again, the end time is set
     while (GPIO.input(ECHO) == 0):
-        start = time()
+        start = time.time()
     while (GPIO.input(ECHO) == 1):
-        end = time()
+        end = time.time()
         
     # calculate the duration that the ECHO pin was high
     # this is how long the pulse took to get from the sensor to
