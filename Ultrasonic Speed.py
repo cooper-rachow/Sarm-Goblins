@@ -73,7 +73,14 @@ while True:
                 break
 
         final_time = time2 - time1
-        print(final_time)
+        
+        distance_travel = 3
+        
+        speed = distance_travel / final_time
+       
+        final_vel = round(speed, 2))
+        
+        print(f"You were able to travel at a speed of {final_vel} ft/s")
         break
 
 
