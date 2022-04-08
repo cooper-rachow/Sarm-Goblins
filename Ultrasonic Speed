@@ -6,7 +6,7 @@ DEBUG = False # debug mode?
 
 TRIGGER_TIME = 0.00001 # seconds needed to trigger the sensor
 
-SPEED_OF_SOUND = 343 # speed of sound in m/s
+SPEED_SOUND = 343 # speed of sound in m/s
 
 # set the RPi to the Broadcom pin layout
 GPIO.setmode(GPIO.BCM)
@@ -17,9 +17,6 @@ ECHO = 27 # the sensor's ECHO pin
 
 GPIO.setup(TRIG, GPIO.OUT) # TRIG is an output
 GPIO.setup(ECHO, GPIO.IN) # ECHO is an input
-# calibrates the sensor
-# technically, it returns a correction factor to use in our
-# calculations
 
 
 # uses the sensor to calculate the distance to an object
@@ -44,7 +41,7 @@ def getDistance():
     duration = end - start
     # calculate the total distance that the pulse traveled by
     # factoring in the speed of sound (m/s)
-    distance = (duration * SPEED_OF_SOUND) / 2
+    distance = (duration * SPEED_SOUND) / 2
     
     return distance
 
