@@ -27,14 +27,7 @@ GPIO.setup(ECHO, GPIO.IN) # ECHO is an input
 # technically, it returns a correction factor to use in our
 # calculations
 def calibrate():
-    print("Calibrating...")
-    # prompt the user for an object's known distance
-    print("-Place the sensor a measured distance away from an object.")
-    known_distance = float(input("-What is the measured distance (cm)? "))
-    
-    # measure the distance to the object with the sensor
-    # do this several times and get an average
-    print("-Getting calibration measurements...")
+  
     distance_avg = 0
     for i in range(CALIBRATIONS):
         distance = getDistance()
@@ -70,9 +63,9 @@ def getDistance():
     # wait for the ECHO pin to read high
     # once the ECHO pin is high, the start time is set
     # once the ECHO pin is low again, the end time is set
-    while (GPIO.input(ECHO) == GPIO.LOW):
+    while (GPIO.input(ECHO) == 0):
         start = time()
-    while (GPIO.input(ECHO) == GPIO.HIGH):
+    while (GPIO.input(ECHO) == 1):
         end = time()
         
     # calculate the duration that the ECHO pin was high
@@ -81,65 +74,19 @@ def getDistance():
     duration = end - start
     # calculate the total distance that the pulse traveled by
     # factoring in the speed of sound (m/s)
-    distance = duration * SPEED_OF_SOUND
-    # the distance from the sensor to the object is half of the
-    # total distance traveled
-    distance /= 2
-    # convert from meters to centimeters
-    distance *= 100
+    distance = (duration * SPEED_OF_SOUND) / 2
     
     return distance
-
-# this will sort the list you get from your calculations
-def sort(nums):
-    for i in range(0, len(nums) - 1):
-        for j in range(0, len(nums) - 1):
-            if nums[j] > nums[j + 1]:
-                swap = nums[j + 1]
-                nums[j + 1] = nums[j]
-                nums[j] = swap
-    return nums
 
 ########
 # MAIN #
 ########
 # first, allow the sensor to settle for a bit
-print("Waiting for sensor to settle({}s)...".format(SETTLE_TIME))
-GPIO.output(TRIG, GPIO.LOW)
-sleep(SETTLE_TIME)
-
-# next, calibrate the sensor
-correction_factor = calibrate()
-
-# then, measure
-input("Press enter to begin...")
-print("Getting measurements:")
-list_a = []
-while (True):
-    # get the distance to an object and correct it with the
-    # correction factor
-    print("-Measuring...")
-    distance = getDistance() * correction_factor
-    sleep(1)
-    
-    # and round to four decimal places
-    distance = round(distance, 4)
-    
-    # display the distance measured/calculated
-    print("--Distance measured: {}cm".format(distance))
-    list_a.append(distance)
-    # prompt for another measurement
-    i = input("--Get another measurement (Y/n)? ")
-    # stop measuring if desired
-    if (not i in [ "y", "Y", "yes", "Yes", "YES", "" ]):
-        break
-    
- 
-# finally, cleanup the GPIO pins
-print("Done.")
-GPIO.cleanup()
-print("\n")
-print("Unsorted measurements:")
-print(list_a)
-print("Sorted measurements:")
-print(sort(list_a))
+try:
+   while True:
+       dist = getDistance()
+       print("Measured Distance = %.1f cm" % dist")
+       time.sleep(1)
+except KeyboardInterrupt:
+    print("STOP")
+    GPIO.cleamup()
