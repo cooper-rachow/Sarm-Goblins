@@ -3,15 +3,9 @@ from time import sleep, time
 
 # constants
 DEBUG = False # debug mode?
-SETTLE_TIME = 2 # seconds to let the sensor settle
-CALIBRATIONS = 5 # number of calibration measurements to take
-
-CALIBRATION_DELAY = 1 # seconds to delay in between calibration measurements
-
 
 TRIGGER_TIME = 0.00001 # seconds needed to trigger the sensor
 
-                     # (to get a measurement)
 SPEED_OF_SOUND = 343 # speed of sound in m/s
 
 # set the RPi to the Broadcom pin layout
@@ -26,31 +20,7 @@ GPIO.setup(ECHO, GPIO.IN) # ECHO is an input
 # calibrates the sensor
 # technically, it returns a correction factor to use in our
 # calculations
-def calibrate():
-  
-    distance_avg = 0
-    for i in range(CALIBRATIONS):
-        distance = getDistance()
-        if (DEBUG):
-            print("--Got {}cm".format(distance))
-        # keep a running sum
-        distance_avg += distance
-        # delay a short time before using the sensor again
-        sleep(CALIBRATION_DELAY)
 
-    # calculate the average of the distances
-    distance_avg /= CALIBRATIONS
-    if (DEBUG):
-        print("--Average is {}cm".format(distance_avg))
-    
-    # calculate the correction factor
-    correction_factor = known_distance / distance_avg
-    if (DEBUG):
-        print("--Correction factor is \{}".format(correction_factor))
-    print("Done.")
-    print()
-
-    return correction_factor
 
 # uses the sensor to calculate the distance to an object
 def getDistance():
