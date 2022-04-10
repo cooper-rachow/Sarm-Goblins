@@ -71,15 +71,22 @@ while True:
                 GPIO.output(LED_PIN, GPIO.LOW)
                 # exit loop
                 break
-
-        final_time = time2 - time1
+                
+        # function that uses start and stop times to get the speed at which hand is moving        
+        def GetVelocity(start, finish):
+            # default distnace is 3 feet
+            distance = 3        
+            final_time = finish - start            
+            # equation to get velocity from point A to point B
+            speed = distance / final_time
+            velocity = round(speed, 2) 
+            
+            return velocity
         
-        distance_travel = 3
         
-        speed = distance_travel / final_time
+        # set variable to velocity to be used for GUI and animal search
+        final_vel = GetVelocity(time1, time2)
        
-        final_vel = round(speed, 2))
-        
         print(f"You were able to travel at a speed of {final_vel} ft/s")
         break
 
