@@ -91,7 +91,23 @@ while True:
         break
 
 
+        animals = {45 : "Elk.gif", 47 : "Gazelle.gif", 50 : "Lion.gif"}
+        
+        speed_list = []
+        for i in speeds.keys():
+            list.append(i)
             
+        def speed(list, v):
+            return list[min(range(len(list)), key = lambda i: abs(list[i]-v))]
+        
+        new_speed = speed(speed_list, final_vel)
+        print(new_speed)
+        
+        animal = animals[new_speed]
+        
+        
+        
+        
 
             
 
