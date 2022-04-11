@@ -74,21 +74,23 @@ while True:
                 
         # function that uses start and stop times to get the speed at which hand is moving        
         def GetVelocity(start, finish):
-            # default distnace is 3 feet
-            distance = 3        
-            final_time = finish - start            
-            # equation to get velocity from point A to point B
-            speed = distance / final_time
-            velocity = round(speed, 2) 
+        # default distnace is 3 feet
+        distance = 3        
+        final_time = finish - start            
+        # equation to get velocity from point A to point B
+        fts_speed = distance / final_time
             
-            return velocity
-        
-        
-        # set variable to velocity to be used for GUI and animal search
-        final_vel = GetVelocity(time1, time2)
+        # converts from feet per second to miles per hour
+        mph_speed = fts_speed * 0.681818
+            
+        return mph_speed
+
+
+
+# set variable to velocity to be used for GUI and animal search
+final_vel = GetVelocity(time1, time2)
        
-        print(f"You were able to travel at a speed of {final_vel} ft/s")
-        break
+print(f"You were able to travel at a speed of {final_vel} mph")
 
 
             
