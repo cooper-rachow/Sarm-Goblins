@@ -92,6 +92,25 @@ final_vel = GetVelocity(time1, time2)
        
 print(f"You were able to travel at a speed of {final_vel} mph")
 
+# mock dictionary
+animal_List = {45 : "Elk", 47 : "Gazelle", 50 : "Lion"}
+
+#create list
+speeds = []
+
+#fill lists with the speeds from the dictionary
+for i in animal_List.keys():
+    speeds.append(i)
+    
+# searches for closest number in the lsit based on the final_vel
+def closest(list, v):
+    return list[min(range(len(list)), key = lambda i: abs(list[i]-v))]
+
+animal_speed = closest(animal_List, final_vel)
+
+# next just call the animal image from the dictionary using the new key (speed)
+image = animal_List[animal_speed]
+
 
             
 
