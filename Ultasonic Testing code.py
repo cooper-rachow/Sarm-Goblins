@@ -107,30 +107,43 @@ def sound():
 # on a button click
 def openNewWindow():
     newWindow = Toplevel()
-    newWindow.title("New Window")
+    newWindow.title("Results")
     newWindow.attributes('-fullscreen', True)
     newWindow.geometry("400x150")
     sound()
     
-    #Label(newWindow, text = f"{x}").pack()
-    #tkWindow.withdraw()
+    picture = PhotoImage(file = "faded_forest2.png")
+    my_label = Label(newWindow, image=picture)
+    my_label.place(x=0, y=0, relwidth=1, relheight=1)
+    
+    text = Label(newWindow, text="Fast as a Animal", font=('Helvetica', 25), fg="dark green")
+    text.place(x=275, y=420)
+    
+    ln = Label(newWindow)
+    ln.place(x=100, y=50)
+    
+    player = tkvideo("bear.mp4", ln, loop = 1, size= (600,350))
+    player.play()
 
-    img=PhotoImage(file=f'{x}')
-    sub = img.subsample(5, 5)
-    ln = Label(newWindow, image=sub)
-    ln.image = sub
-    ln.grid(row=6)
-
-    Button(newWindow, text='restart', command=newWindow.destroy).grid(row =5, columnspan=2)
-
-tkWindow = Tk()  
+    Button(newWindow, text='RESTART', bg='red', height = 3, width = 5, command=newWindow.destroy).place(x=45, y=409)
+    newWindow.mainloop()
+    
+tkWindow = Tk()
 tkWindow.geometry('400x150')  
 tkWindow.attributes('-fullscreen', True)
-tkWindow.title('PythonExamples.org - Tkinter Example')
-  
-button = Button(tkWindow, text = 'Submit', bg='red', activebackground='green', command = openNewWindow)  
-button.pack()  
-button2 = Button(tkWindow, text = 'QUIT', command= tkWindow.destroy)
+tkWindow.title('Speed Test')
+
+picture = PhotoImage(file = "faded_forest2.png")
+my_label = Label(tkWindow, image=picture)
+my_label.place(x=0, y=0, relwidth=1, relheight=1)
+ 
+fnt = font.Font(family='Times New Roman', size=30) 
+button = Button(tkWindow, text = 'Start!', bg='red', activebackground='green', command = openNewWindow, height = 2, width = 7)
+button['font'] = fnt
+button.pack(padx = 100, pady = 100)
+fnt2 = font.Font(size=20) 
+button2 = Button(tkWindow, text = 'QUIT',activebackground='gray', command= tkWindow.destroy)
+button2['font'] = fnt2
 button2.pack()
   
 tkWindow.mainloop()
