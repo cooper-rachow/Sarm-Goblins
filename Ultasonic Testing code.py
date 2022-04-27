@@ -19,7 +19,10 @@ GPIO.setmode(GPIO.BCM)
 #set GPIO Pins
 GPIO_TRIGGER = 18
 GPIO_ECHO = 24
-LED_PIN = 27
+red1_LED = 27
+green1_LED = 13
+red2_LED = 26
+green2_LED = 12
         
 # searches for closest number in the lsit based on the final_vel
 def closest(test_dict, search_key):
@@ -77,12 +80,16 @@ def sound():
     #set GPIO direction (IN / OUT)
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
     GPIO.setup(GPIO_ECHO, GPIO.IN)
-    GPIO.setup(LED_PIN, GPIO.OUT)
+    GPIO.setup(red_LED1, GPIO.OUT)
+    GPIO.setup(green_LED1, GPIO.OUT)
+    GPIO.setup(red_LED2, GPIO.OUT)
+    GPIO.setup(green_LED2, GPIO.OUT)
 
     time.sleep(randint(2, 6))
-    # start time/ turn on led
+    # start time/ turn on green led
     time1 = time.time()
-    GPIO.output(LED_PIN, GPIO.HIGH)
+    GPIO.output(green_LED1, GPIO.HIGH)
+    GPIO.output(green_LED2, GPIO.HIGH)    
         
     while True:
         dist = distance()
@@ -90,8 +97,12 @@ def sound():
         if dist <= 100:
             # stop time
             time2 = time.time()
-            # turn off led
-            GPIO.output(LED_PIN, GPIO.LOW)
+            # turn off green led
+            GPIO.output(green_LED1, GPIO.LOW)
+            GPIO.output(green_LED2, GPIO.LOW)    
+            # turn on red led
+            GPIO.output(red_LED1, GPIO.HIGH)
+            GPIO.output(red_LED2, GPIO.HIGH)
             # exit loop
             break
 
