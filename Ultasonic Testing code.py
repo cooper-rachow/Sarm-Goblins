@@ -8,9 +8,10 @@ from time import sleep
 GPIO.setwarnings(False)
 
 # mock dictionary
-animal_List = {4 : "Elk.gif", 3 : "Gazelle.gif", 5 : "Lion.gif"}
+animal_dict = {4 : ["Elk.gif", "Elk"], 3 : ["Gazelle.gif", "Gazelle"], 5 : ["Lion.gif", "Lion"]}
 
 x = None
+y = None
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
@@ -22,8 +23,7 @@ LED_PIN = 27
         
 # searches for closest number in the lsit based on the final_vel
 def closest(test_dict, search_key):
-    res = test_dict.get(search_key) or test_dict[min(test_dict.keys(),
-                                                     key = lambda key: abs(key-search_key))]
+    res = test_dict.get(search_key) or test_dict[min(test_dict.keys(), key = lambda key: abs(key-search_key))]
     return res
 
 def distance():
@@ -69,8 +69,9 @@ def GetVelocity(start, finish):
 
 
 def sound():
-    global animal_List
+    global animal_dict
     global x
+    global y
     # run code for ultrasonic sensor
     
     #set GPIO direction (IN / OUT)
@@ -98,14 +99,17 @@ def sound():
     final_vel = GetVelocity(time1, time2)
     print(f"{final_vel}")
     
-    animal_pic = closest(animal_List, final_vel)
+    animal_pic = closest(animal_dict, final_vel)
 
     # next just call the animal image from the dictionary using the new key (speed)
-    x = animal_pic
+    x = animal_pic[0] # video
+    y = animal_pic[1] # name of animal
 
 # function to open a new window
 # on a button click
 def openNewWindow():
+    global x
+    global y
     newWindow = Toplevel()
     newWindow.title("Results")
     newWindow.attributes('-fullscreen', True)
@@ -116,13 +120,12 @@ def openNewWindow():
     my_label = Label(newWindow, image=picture)
     my_label.place(x=0, y=0, relwidth=1, relheight=1)
     
-    text = Label(newWindow, text="Fast as a Animal", font=('Helvetica', 25), fg="dark green")
+    text = Label(newWindow, text="Wow! " + y + " like speed!", font=('Helvetica', 25), fg="dark green")
     text.place(x=275, y=420)
-    
     ln = Label(newWindow)
     ln.place(x=100, y=50)
     
-    player = tkvideo("bear.mp4", ln, loop = 1, size= (600,350))
+    player = tkvideo(x, ln, loop = 1, size= (600,350))
     player.play()
 
     Button(newWindow, text='RESTART', bg='red', height = 3, width = 5, command=newWindow.destroy).place(x=45, y=409)
